@@ -19,7 +19,8 @@
 		}
 
 	// Commence testing using different invalid emails.
-		$Test_Emails = array("invaid".str_repeat("d", 64)."@email.com",
+		$Test_Emails = array("invalidemail.com",
+							 "invaid".str_repeat("d", 64)."@email.com",
 							 "invalid@email".str_repeat("l", 255).".com",
 							 "invalid.@email.com",
 							 "inval..id@email.com",
