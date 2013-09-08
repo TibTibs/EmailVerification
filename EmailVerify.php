@@ -6,8 +6,10 @@
 			if($At_Position === false) return "no @ symbol found";
 			$URL  = substr($Email, $At_Position+1);
 			$User = substr($Email, 0, $At_Position);
-			if(!$User || strlen($User) > 64)                     return "before @ is too long"; // The username part of an email can't be over 64 chars.
-			if(!$URL  || strlen($URL)  > 253)                    return "after @ is too long";  // The combined length of an email can't be over 255 chars.
+			if(!$User)                                           return "before @ is missing";
+			if(!$URL)                                            return "after @ is missing";
+			if(strlen($User) > 64)                               return "before @ is too long"; // The username part of an email can't be over 64 chars.
+			if(strlen($URL)  > 253)                              return "after @ is too long";  // The combined length of an email can't be over 255 chars.
 			if($User[0] == '.' || $User[strlen($User)-1] == '.') return "before @ can't end with a period";
 			if(strpos($User, ".."))                              return "before @ has consecutive periods";
 			if(!preg_match('/^[A-Za-z0-9\\-\\.]+$/', $URL))      return "after @ has invalid characters";
@@ -20,7 +22,8 @@
 
 	// Commence testing using different invalid emails.
 		$Test_Emails = array("invalidemail.com",
-							 "@email.com",
+							 "@invalid.com",
+							 "invalid@",
 							 "invaid".str_repeat("d", 64)."@email.com",
 							 "invalid@email".str_repeat("l", 255).".com",
 							 "invalid.@email.com",
@@ -28,6 +31,7 @@
 							 "invalid@web$!te.com",
 							 "invalid@email..com",
 							 "inv[a]lid@email.com",
+							 "invalid@email",
 							 "invalid@jibberishwebsitename.com",
 							 "valid@email.com");
 		foreach($Test_Emails as $Email){
@@ -35,5 +39,4 @@
 			if($Valid === true) echo "Success: (".$Email.") This is a valid email!<br>\n";
 			else echo "Error: (".$Email.") ".$Valid."<br>\n";
 		}
-		sleep(999);
 ?>
