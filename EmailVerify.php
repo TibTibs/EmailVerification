@@ -3,7 +3,7 @@
 		function Validate_Email($Email)
 		{
 			$At_Position = strrpos($Email, "@");
-			if(!$At_Position) return "no @ symbol found";
+			if($At_Position === false) return "no @ symbol found";
 			$URL  = substr($Email, $At_Position+1);
 			$User = substr($Email, 0, $At_Position);
 			if(!$User || strlen($User) > 64)                     return "before @ is too long"; // The username part of an email can't be over 64 chars.
@@ -20,6 +20,7 @@
 
 	// Commence testing using different invalid emails.
 		$Test_Emails = array("invalidemail.com",
+							 "@email.com",
 							 "invaid".str_repeat("d", 64)."@email.com",
 							 "invalid@email".str_repeat("l", 255).".com",
 							 "invalid.@email.com",
@@ -34,4 +35,5 @@
 			if($Valid === true) echo "Success: (".$Email.") This is a valid email!<br>\n";
 			else echo "Error: (".$Email.") ".$Valid."<br>\n";
 		}
+		sleep(999);
 ?>
