@@ -1,5 +1,5 @@
 <?php
-	// Pass an email to this function, it will pass back a string if the email is invalid, false if it is good.
+	// Pass an email to this function, it will pass back a string if the email is invalid, true if it is good.
 		function Validate_Email($Email)
 		{
 			$At_Position = strrpos($Email, "@");
@@ -15,7 +15,7 @@
 			if(!preg_match('/^(\\\\.|[A-Za-z0-9!#%&`_=\\/$\'*+?^{}|~.-])+$/', str_replace("\\\\","",$User)) && !preg_match('/^"(\\\\"|[^"])+"$/', str_replace("\\\\","",$User)))
 																 return "before @ has invalid characters";
 			if(!(checkdnsrr($URL,"MX") || checkdnsrr($URL,"A"))) return "after @ isn't a real website";
-			return false;
+			return true;
 		}
 
 	// Commence testing using different invalid emails.
@@ -30,7 +30,7 @@
 							 "valid@email.com");
 		foreach($Test_Emails as $Email){
 			$Valid = Validate_Email($Email);
-			if($Valid) echo "Error: (".$Email.") ".$Valid."<br>\n";
-			else echo "Success: (".$Email.") This is a valid email!<br>\n";
+			if($Valid === true) echo "Success: (".$Email.") This is a valid email!<br>\n";
+			else echo "Error: (".$Email.") ".$Valid."<br>\n";
 		}
 ?>
