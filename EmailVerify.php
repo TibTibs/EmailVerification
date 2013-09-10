@@ -2,10 +2,9 @@
 	// Pass an email to this function, it will pass back a string if the email is invalid, true if it is good.
 		function Validate_Email($Email)
 		{
-			$At_Position = strrpos($Email, "@");
-			if($At_Position === false) return "no @ symbol found";
-			$URL  = substr($Email, $At_Position+1);
-			$User = substr($Email, 0, $At_Position);
+			if(!$Email) return "please enter an email";
+			if(strrpos($Email, "@") === false) return "no @ symbol found";
+			list($User, $URL) = explode("@", $Email);
 			if(!$User)                                           return "before @ is missing";
 			if(!$URL)                                            return "after @ is missing";
 			if(strlen($User) > 64)                               return "before @ is too long"; // The username part of an email can't be over 64 chars.
